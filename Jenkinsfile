@@ -1,17 +1,11 @@
 pipeline {
-  agent {
-    docker {
-      image 'mcr.microsoft.com/dotnet/sdk:8.0'
-      args '-u root:root'
-    }
-  }
-
+  agent any
   triggers { githubPush() }
 
   stages {
     stage('Checkout') { steps { checkout scm } }
-    stage('Restore')  { steps { sh 'dotnet restore' } }
-    stage('Build')    { steps { sh 'dotnet build --no-restore' } }
-    stage('Test')     { steps { sh 'dotnet test --no-build --verbosity normal' } }
+    stage('Restore')  { steps { bat 'dotnet restore' } }
+    stage('Build')    { steps { bat 'dotnet build --no-restore' } }
+    stage('Test')     { steps { bat 'dotnet test --no-build --verbosity normal' } }
   }
 }
